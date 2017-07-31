@@ -39,8 +39,13 @@ Most browsers now provide a performance timing API ([source](https://developer.m
   - domComplete
   - loadEventEnd
 
+TODO: extract descriptions from here and compare to DOM events: https://developer.mozilla.org/en-US/docs/Web/API/PerformanceTiming
+
+TODO: add back missing events from list above
 
 ### index.js
+
+- TODO remove comments from index.js and place here
 
 - to see the logs fire under slow internet, make sure to throttle your network in the chrome dev tools network tab.  that way you can see how the jquery script attributes and placement affect user experience.
 - comment / uncomment the jquery scripts to see effects
