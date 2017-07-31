@@ -1,42 +1,25 @@
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery-3.2.1.js"> </script>
-  <script async src="http://code.jquery.com/jquery-3.2.1.js"> </script>
-  <script defer src="http://code.jquery.com/jquery-3.2.1.js"> </script>
-  <style>
+  <script src="./index.js"></script>
+  <!--
+    There are 6 scripts on this page that are exactly the same.  The only difference is the `async` and `defer` attributes that some of them have as well as the position on the page they are listed.
+    In order to see a noticeable difference in page load performance, use Chome Dev Tools to throttle your internet connection then uncomment one script at a time.  Notice the change in the event timeline.
+    This exercise will help you learn the difference of each of these DOM events and understand the importance of proper JS script management.
+  -->
 
-    div > span {
-      background-color: blue;
-    }
-  </style>
+  <!-- <script src="http://code.jquery.com/jquery-3.2.1.js"> </script> -->
+
+  <!-- <script async src="http://code.jquery.com/jquery-3.2.1.js"> </script> -->
+
+  <!-- <script defer src="http://code.jquery.com/jquery-3.2.1.js"> </script> -->
 </head>
 <body>
-  <div id="test" class="test testingAgain">
-    some commments here
-    <div class="test testingAgain">more tests</div>
-    <!-- here is a test -->
-    <span>more testing</span>
-  </div>
-  <div>
-    <div>
-      test here
-      <div></div>
-    </div>
-    <div class="test">
-      <form id="form">
-        <input type="text" id='s' />
+  <div></div>
+  
+  <!-- <script src="http://code.jquery.com/jquery-3.2.1.js"> </script> -->
 
-        <input type="file" name='filing' />
+  <!-- <script async src="http://code.jquery.com/jquery-3.2.1.js"> </script> -->
 
-        <span> + selector test </span>
-
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
-  </div>
-  <script src="./index.js"></script>
-  <script src="http://code.jquery.com/jquery-3.2.1.js"> </script>
-  <script async src="http://code.jquery.com/jquery-3.2.1.js"> </script>
-  <script defer src="http://code.jquery.com/jquery-3.2.1.js"> </script>
+  <!-- <script defer src="http://code.jquery.com/jquery-3.2.1.js"> </script> -->
 </body>
 </html>
