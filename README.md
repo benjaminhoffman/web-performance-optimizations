@@ -1,4 +1,16 @@
-# DOM Lifecycle events
+# Table of Contents
+- DOM Lifecycle Events
+  - History Lesson
+  - Today
+- How to Measure TTI
+  - Navigation Timing API
+    - Recipes
+- Lifecycle of a JavaScript Script
+- Performance Optimization
+- index.js Explained
+- Links
+
+## DOM Lifecycle Events
 I am obsessed with page load speed, website performance, and just about anything that is tangentially related to improving the user experience of my website(s).
 
 I created this repo as a place to make sense of all the metrics, measurements, and industry standards around web page speed and performance.  I'm sure there are other resources online that will tell you the same as is listed here but I wanted to create an all-in-one place for myself, for future reference.
@@ -9,7 +21,7 @@ Back in the day (Web 1.0 days) the `window.onload()` event was a great measureme
 ### Today
 In the world of dynamic content loading, single page apps, plentiful network requests, etc, `.onload()` is no longer an accurate measurement of a user's perception that the page has rendered and ready to be interacted with.  As a specific example, read [this article](http://www.stevesouders.com/blog/2013/05/13/moving-beyond-window-onload/) of how Amazon's above-the-fold content loads much faster than the `.onload()` timestamp.  We need something better to truly measure the time-to-interactive (TTI).
 
-### How to Measure Time-to-Interactive (TTI)
+## How to Measure Time-to-Interactive (TTI)
 TTI is a very important metric to measure because it represents the time it takes for the page to become interactive _from the perspective of the user_ and not necessarily when the page is officially done loading.  That's an important distiction -- we care about _perceived_ loading time vs. actual loading time.  So exactly can we measure TTI?
 
 
@@ -63,7 +75,7 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
 - recipe TODO: Time to Interactive
 - recipe TODO: Time to First Paint
 
-### Lifecycle of a JavaScript Script
+## Lifecycle of a JavaScript Script
 
 - browser parses the document returned from the server
 - parser sees a script tag
@@ -76,7 +88,7 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
 - your page can continue parsing
 
 
-### Performance Optimization
+## Performance Optimization
 Below is a list of optimizations you can make as an engineer to improve the performance of your website.  This list is not exhaustive and needs updating.  Currently, it's simply used as a reminder to myself but in the future I hope to expand on it by including more details and instructions.
 
 - Tree shaking
@@ -96,7 +108,7 @@ Below is a list of optimizations you can make as an engineer to improve the perf
 - Put critical CSS in _head_ and others in _body_
 
 
-### index.js
+## index.js
 
 - TODO remove comments from index.js and place here
 
@@ -104,7 +116,7 @@ Below is a list of optimizations you can make as an engineer to improve the perf
 
 - comment / uncomment the jquery scripts to see effects
 
-### Links
+## Links
 - https://testdrive-archive.azurewebsites.net/HTML5/DOMContentLoaded/Default.html
 - https://www.npmjs.com/package/source-map-explorer
 - https://www.npmjs.com/package/webpack-bundle-analyzer
