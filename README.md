@@ -43,6 +43,8 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
   - **loadEventStart** -- when the `load` event was sent for the current document.
   - **loadEventEnd** -- when the `load` event handler terminates; specifically, when the load event is completed.
 
+### TODO
+- benchmark these events: Time to First/Last Byte, Time to Render
 #### Recipes
 - `new Date().getTime() - .navigationStart`
  - measure perceived loading time
@@ -55,6 +57,11 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
 - `.responseEnd - .requestStart`
  - calculate request response times
 
+- recipe TODO: Time to First Byte
+- recipe TODO: Time to Last Byte
+- recipe TODO: Time to Render
+- recipe TODO: Time to Interactive
+
 ### index.js
 
 - TODO remove comments from index.js and place here
@@ -62,3 +69,5 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
 - to see the logs fire under slow internet, make sure to throttle your network in the chrome dev tools network tab.  that way you can see how the jquery script attributes and placement affect user experience.
 
 - comment / uncomment the jquery scripts to see effects
+
+- https://testdrive-archive.azurewebsites.net/HTML5/DOMContentLoaded/Default.html
