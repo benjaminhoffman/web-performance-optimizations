@@ -76,6 +76,25 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
 - your page can continue parsing
 
 
+### Performance Optimization
+Below is a list of optimizations you can make as an engineer to improve the performance of your website.  This list is not exhaustive and needs updating.  Currently, it's simply used as a reminder to myself but in the future I hope to expand on it by including more details and instructions.
+
+- Tree shaking
+- Minification
+- [Ahead-of-time compilation](https://angular.io/guide/aot-compiler) (Angular)
+- Code splitting
+- Asset Caching
+- Bundle JS
+- HTTP2 (ht2 push)
+- [Google Lighthouse](https://developers.google.com/web/tools/lighthouse/) (add to [CLI](https://github.com/GoogleChrome/lighthouse) & dev workflow)
+- Script tags
+  - _defer_ & _async_
+  - add to bottom of body
+- Pre-browsing (`link rel="whatever"`) (read more [here](https://css-tricks.com/prefetching-preloading-prebrowsing/) and [here](https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf))
+- Server side rendering (SSR)
+- Accelerated Mobile Pages (AMP)
+- Put critical CSS in _head_ and others in _body_
+
 
 ### index.js
 
