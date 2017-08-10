@@ -43,8 +43,7 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
   - **loadEventStart** -- when the `load` event was sent for the current document.
   - **loadEventEnd** -- when the `load` event handler terminates; specifically, when the load event is completed.
 
-### TODO
-- benchmark these events: Time to First/Last Byte, Time to Render
+
 #### Recipes
 - `new Date().getTime() - .navigationStart`
  - measure perceived loading time
@@ -57,10 +56,26 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
 - `.responseEnd - .requestStart`
  - calculate request response times
 
+
 - recipe TODO: Time to First Byte
 - recipe TODO: Time to Last Byte
 - recipe TODO: Time to Render
 - recipe TODO: Time to Interactive
+- recipe TODO: Time to First Paint
+
+### Lifecycle of a JavaScript Script
+
+- browser parses the document returned from the server
+- parser sees a script tag
+- without a _defer_ or _async_ tag, browser will pause as it goes off and makes the request, waits for the response, then pass the response to the v8 parser
+- parser says, _'take this string of code and turn it into something the v8 runtime can actually use'_
+- v8 runtime parses, compiles, and executes the string of code returned from the script tag
+- usually the longest time of this process is the execution stage
+- if your bundle is large, you may see an extended delay in the parsing stage of the script
+- once your code is done parsing, compiling, and executed, its done!
+- your page can continue parsing
+
+
 
 ### index.js
 
@@ -70,4 +85,7 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
 
 - comment / uncomment the jquery scripts to see effects
 
+### Links
 - https://testdrive-archive.azurewebsites.net/HTML5/DOMContentLoaded/Default.html
+- https://www.npmjs.com/package/source-map-explorer
+- https://www.npmjs.com/package/webpack-bundle-analyzer
