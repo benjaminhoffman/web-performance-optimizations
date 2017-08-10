@@ -11,9 +11,7 @@
 - Links
 
 ## DOM Lifecycle Events
-I am obsessed with page load speed, website performance, and just about anything that is tangentially related to improving the user experience of my website(s).
-
-I created this repo as a place to make sense of all the metrics, measurements, and industry standards around web page speed and performance.  I'm sure there are other resources online that will tell you the same as is listed here but I wanted to create an all-in-one place for myself, for future reference.
+I created this repo as a place to make sense of all the metrics, measurements, and industry standards around web page performance optimization.  I'm sure there are other resources online that will tell you the same as is listed here but I wanted to create an all-in-one place for myself, for future reference.  I did my best to cite my sources for additional learnings.
 
 ### History Lesson
 Back in the day (Web 1.0 days) the `window.onload()` event was a great measurement for how long it took for a page to fully render because it is a standard event implemented across all browsers and it reflected the actual user perception since web pages were very static. This was the official proxy for time-to-interactive (tti).  Said another way, `.onload()` is based on a page's resources downloading and in the old days of simple text and small images, the page's readiness was closely tied to its resources downloading.
@@ -58,15 +56,15 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
 
 #### Recipes
 - `new Date().getTime() - .navigationStart`
- - measure perceived loading time
+  - measure perceived loading time
 
 
 - `.loadEventEnd - .navigationStart`
- - calculate total time required to load a page
+  - calculate total time required to load a page
 
 
 - `.responseEnd - .requestStart`
- - calculate request response times
+  - calculate request response times
 
 
 - recipe TODO: Time to First Byte
