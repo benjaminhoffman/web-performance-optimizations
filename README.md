@@ -13,6 +13,8 @@
 ## DOM Lifecycle Events
 I created this repo as a place to make sense of all the metrics, measurements, and industry standards around web page performance optimization.  I'm sure there are other resources online that will tell you the same as is listed here but I wanted to create an all-in-one place for myself, for future reference.  I did my best to cite my sources for additional learnings.
 
+**Caveat**: Read at your own risk, this has not been peer reviewed.  PRs are welcomed!
+
 ### History Lesson
 Back in the day (Web 1.0 days) the `window.onload()` event was a great measurement for how long it took for a page to fully render because it is a standard event implemented across all browsers and it reflected the actual user perception since web pages were very static. This was the official proxy for time-to-interactive (tti).  Said another way, `.onload()` is based on a page's resources downloading and in the old days of simple text and small images, the page's readiness was closely tied to its resources downloading.
 
@@ -23,8 +25,14 @@ In the world of dynamic content loading, single page apps, plentiful network req
 TTI is a very important metric to measure because it represents the time it takes for the page to become interactive _from the perspective of the user_ and not necessarily when the page is officially done loading.  That's an important distiction -- we care about _perceived_ loading time vs. actual loading time.  So exactly can we measure TTI?
 
 
-### TODO TTI discussion
-- need a section about how companies are measuring TTI and how strategies differ among clientside JS frameworks
+### Important Measurements
+(this section is under construction)
+
+**Time to Interactive (TTI)** - measures the first point at which a user can interactive with the page.  Important because website visitors are impatient; if we see something we want to interact with, we will try.  See recipe below.
+
+**Time to First Paint (TTFP)** - measures when the first pixels are rendered on the page.  Important because this is when the user first begins to see content on the page.  See recipe below.
+
+
 
 ### TODO additional notes
 - possibly discuss corner cases like lazy loading, above/below the fold content, etc
@@ -54,9 +62,27 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
   - **loadEventEnd** -- when the `load` event handler terminates; specifically, when the load event is completed.
 
 
+
 #### Recipes
-- `new Date().getTime() - .navigationStart`
-  - measure perceived loading time
+**`performance.timing`** -- if you see the `.something` syntax below, it's because I removed the preface of `performance.timing` for purposes of examples.  Thus, in Chrome console, this `.domInteractive - .requestStart` should be this `performance.timing.domInteractive - performance.timing.requestStart`.
+
+- `performance.getEntries()[0].domInteractive`
+  - potentially a good measure of time to interactive (TTI)
+  - in MS, around the time it takes from the moment the browser sends the request to the moment the DOM becomes interactive
+  - _should_ be close to metric `.domInteractive - .requestStart`
+
+
+- `performance.getEntriesByType('paint')[0].startTime`
+  - time to first paint... which is the earliest possible point at which something appears after a user requests a page ([link](https://css-tricks.com/paint-timing-api/))
+  - try typing this and examine the objects: `performance.getEntriesByType('paint')`
+
+
+- `performance.timing.responseStart - performance.timing.requestStart`
+  - time to first byte
+
+
+- `performance.timing.responseEnd - performance.timing.requestStart`
+  - time to last byte
 
 
 - `.loadEventEnd - .navigationStart`
@@ -67,14 +93,7 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
   - calculate request response times
 
 
-- recipe TODO: Time to First Byte
-- recipe TODO: Time to Last Byte
-- recipe TODO: Time to Render
-- recipe TODO: Time to Interactive
-- recipe TODO: Time to First Paint
-
-## Lifecycle of a JavaScript Script
-
+## Browser Lifecycle
 - browser parses the document returned from the server
 - parser sees a script tag
 - without a _defer_ or _async_ tag, browser will pause as it goes off and makes the request, waits for the response, then pass the response to the v8 parser
@@ -105,7 +124,6 @@ Below is a list of optimizations you can make as an engineer to improve the perf
 - Accelerated Mobile Pages (AMP)
 - Put critical CSS in _head_ and others in _body_
 
-
 ## index.js
 
 - TODO remove comments from index.js and place here
@@ -120,3 +138,5 @@ Below is a list of optimizations you can make as an engineer to improve the perf
 - https://www.npmjs.com/package/webpack-bundle-analyzer
 - https://www.webpagetest.org/
 - add links from bookmarks
+- https://pinterest.github.io/bonsai/
+- http://instartlogic.github.io/p/mobileperf/#slide1

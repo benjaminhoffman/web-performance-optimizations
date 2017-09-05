@@ -10,7 +10,8 @@ document.addEventListener('readystatechange', (state) => {
 })
 
 
-// fires when all the content has loaded but not yet executed/rendered
+// fires when the document has been completely downloaded and parsed
+// but before the assets have finished loading
 // i.e. before images, scripts, etc have completed
 // UI is responsive at this point
 // AKA: jQuery.ready()
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // fires when readyState is `complete`
+// used to detect a fully-loaded page
 // i.e. when all resources have loaded
 // same as window.onload
 document.addEventListener('readystatechange', (state) => {
