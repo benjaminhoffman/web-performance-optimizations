@@ -61,10 +61,11 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
   - **loadEventStart** -- when the `load` event was sent for the current document.
   - **loadEventEnd** -- when the `load` event handler terminates; specifically, when the load event is completed.
 
-
+TODO: explanation of [`performance.getEntries()`](https://developer.mozilla.org/en-US/docs/Web/API/Performance/getEntries)
 
 #### Recipes
 **`performance.timing`** -- if you see the `.something` syntax below, it's because I removed the preface of `performance.timing` for purposes of examples.  Thus, in Chrome console, this `.domInteractive - .requestStart` should be this `performance.timing.domInteractive - performance.timing.requestStart`.
+
 
 - `performance.getEntries()[0].domInteractive`
   - potentially a good measure of time to interactive (TTI)
@@ -75,6 +76,7 @@ All browsers (IE 9+) now provide a performance timing API ([source](https://deve
 - `performance.getEntriesByType('paint')[0].startTime`
   - time to first paint... which is the earliest possible point at which something appears after a user requests a page ([link](https://css-tricks.com/paint-timing-api/))
   - try typing this and examine the objects: `performance.getEntriesByType('paint')`
+  - [learn more](https://developer.mozilla.org/en-US/docs/Web/API/Performance/getEntriesByType)
 
 
 - `performance.timing.responseStart - performance.timing.requestStart`
