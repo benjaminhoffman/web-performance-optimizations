@@ -1,7 +1,11 @@
-# Table of Contents
-- DOM Lifecycle Events
-  - History Lesson
-  - Today
+# DOM Lifecycle Events
+I created this repo as a place to make sense of all the metrics, measurements, and industry standards around web page performance optimization.  I'm sure there are other resources online that will tell you the same as is listed here but I wanted to create an all-in-one place for myself, for future reference.  I did my best to cite my sources for additional learnings.
+
+**Caveat**: Read at your own risk, this has not been peer reviewed.  PRs are welcomed!
+
+## Table of Contents
+- History Lesson
+- Today
 - How to Measure TTI
   - Navigation Timing API
     - Recipes
@@ -10,29 +14,46 @@
 - index.js Explained
 - Links
 
-## DOM Lifecycle Events
-I created this repo as a place to make sense of all the metrics, measurements, and industry standards around web page performance optimization.  I'm sure there are other resources online that will tell you the same as is listed here but I wanted to create an all-in-one place for myself, for future reference.  I did my best to cite my sources for additional learnings.
+## Important Notes
+If there are only a few takeaways you get from this document, please make it this:
+- Users come first!  Page load is a function of how a user _perceives_ the performance of your page, and not a function of how it really performs.  
 
-**Caveat**: Read at your own risk, this has not been peer reviewed.  PRs are welcomed!
-
-### History Lesson
-Back in the day (Web 1.0 days) the `window.onload()` event was a great measurement for how long it took for a page to fully render because it is a standard event implemented across all browsers and it reflected the actual user perception since web pages were very static. This was the official proxy for time-to-interactive (tti).  Said another way, `.onload()` is based on a page's resources downloading and in the old days of simple text and small images, the page's readiness was closely tied to its resources downloading.
-
-### Today
-In the world of dynamic content loading, single page apps, plentiful network requests, etc, `.onload()` is no longer an accurate measurement of a user's perception that the page has rendered and ready to be interacted with.  As a specific example, read [this article](http://www.stevesouders.com/blog/2013/05/13/moving-beyond-window-onload/) of how Amazon's above-the-fold content loads much faster than the `.onload()` timestamp.  We need something better to truly measure the time-to-interactive (TTI).
-
-## How to Measure Time-to-Interactive (TTI)
-TTI is a very important metric to measure because it represents the time it takes for the page to become interactive _from the perspective of the user_ and not necessarily when the page is officially done loading.  That's an important distiction -- we care about _perceived_ loading time vs. actual loading time.  So exactly can we measure TTI?
+- You can only improve what you measure.  If you are reading this and are not yet measuring your performance stats, start there!
 
 
-### Important Measurements
-(this section is under construction)
+## History Lesson
+Back in the day (Web 1.0 days) the `window.onload()` event was a great measurement for how long it took a webpage to load.  The reason lies in the fact that webpages were mostly static so the time it took for the page to fully render was very much aligned with the website visitor's perceived loading time.  It also helped that this event had excellent cross-browser support, thereby making it the official proxy for time-to-interactive (TTI).  Said another way, `.onload()` is based on a page's resources downloading and in the old days of simple text and small images, the page's readiness was closely tied to its resources downloading.
+
+
+## Today
+In the world of dynamic content loading, single page apps, plentiful network requests, etc, `.onload()` is no longer an accurate measurement of a user's perception that the page has rendered and ready to be interacted with.  As a specific example, read [this article](http://www.stevesouders.com/blog/2013/05/13/moving-beyond-window-onload/) of how Amazon's above-the-fold content loads much faster than the `.onload()` timestamp.  Thus, we need something better to measure true TTI.
+
+
+## Important Metrics You Should Be Tracking
+
+### First Contentful Paint (FCP)
+[First Contentful Pain](https://docs.google.com/document/d/1BR94tJdZLsin5poeet0XoTW60M0SjvOJQttKT-JK8HI/edit#heading=h.wrx1f1auez1r) is the time when some contentful thing is painted for the first time. It's similar to FMP (below) but differs in that FCP catchings meaningless paints, like headers and nav bars.  In sum, if you want to know when the first pixel is painted, use this metric. But if you care about when the first meaningful object is painted, use FMP.
+
+### First Meaningful Paint (FMP)
+[First Meaningful Paint](https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint) is essentially the paint after which the biggest above-the-fold layout change has happened, and web fonts have loaded. In other words, it's the time when a page's [primary content appears on the screen](https://docs.google.com/document/d/1BR94tJdZLsin5poeet0XoTW60M0SjvOJQttKT-JK8HI/edit#).  Chrome uses a "layout-based" approach to calculate this metric.  That means, the FMP metric is a function of when the "biggest layout change" (discounting content that is below the fold) + _meaningful_ web fonts have loaded.
+
+See FCP above for comparison metric and see web font discussion below for context about font loading.
+
+### Time-to-Interactive:
+TTI is a very important metric to measure because it represents the time it takes for the page to become interactive _from the perspective of the user_ and not necessarily when the page is officially done loading.  That's an important distinction -- we care about _perceived_ loading time vs. actual loading time.  So how exactly can we measure TTI?
 
 **Time to Interactive (TTI)** - measures the first point at which a user can interactive with the page.  Important because website visitors are impatient; if we see something we want to interact with, we will try.  See recipe below.
 
-**Time to First Paint (TTFP)** - measures when the first pixels are rendered on the page.  Important because this is when the user first begins to see content on the page.  See recipe below.
 
 
+### Font Display Timeline (TODO put me somewhere!)
+When using webfonts via `@font-face`, the user agent needs to know what to do while the font is actively loading.  Thus, [most browsers have adopted the following timeline](https://tabatkins.github.io/specs/css-font-display/#render-with-a-fallback-font-face):
+
+1. **Font Block Period** -- if the font face is not loaded, any element attempting to use it must instead render an invisible fallback font face.  If the font load successfully during this period, it is used as expected.
+
+2.  **Font Swap Period** -- occurs immediately after the block period; if the font face has not loaded yet, any element attempting to use it will render with a fallback font. If the font loads successfully during this period, the correct font will be swapped out.
+
+3.  **Font Failure Period** -- occurs immediately after the swap period; if the correct font face is not yet loaded, the page will simply render with the fallback font and not attempt to load the correct font.
 
 ### TODO additional notes
 - possibly discuss corner cases like lazy loading, above/below the fold content, etc
