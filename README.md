@@ -52,6 +52,7 @@ Below is a list of definitions I pulled from Chrome, Lighthouse, and other rando
 
 See FCP above for comparison metric and see web font discussion below for context about font loading.
 
+
 ### **Time to Interactive (TTI):** when a webpage can be interacted with
 TTI represents the time it takes for the page to become interactive _from the perspective of the user_ and not necessarily when the page is officially done loading.  That's an important distinction... remember we care about _perceived_ loading time, not actual loading time.
 
@@ -65,7 +66,7 @@ Note: this measurement is listed as beta, it is still under discussion.  [link](
 
 
 ### **Consistently Interactive (CI):** when a webpage is completely and delightfully interactive
-CI is a more comprehensive measurement than FI in that it covers not only everything shown on the page, but that the page yields control back to the main thread at least once every 50ms, giving the browser enough breathing room to do smooth input processing.
+CI is a more comprehensive measurement than FI in that it covers not only everything shown on the page, but that the page yields control back to the main thread at least once every 50ms, giving the browser enough breathing room to do smooth input processing.  In sum, it's the point at which most network resources have finished loading and the CPU is idle for a prolonged period.
 
 Note: this measurement is listed as beta, it is still under discussion.  [link](https://docs.google.com/document/d/1GGiI9-7KeY3TPqS3YT271upUVimo-XiL5mwWorDUD4c/edit#heading=h.k3n425u3ax8x)
 
@@ -151,7 +152,23 @@ TODO: explanation of [`performance.getEntries()`](https://developer.mozilla.org/
 
 
 ## Performance Optimization
-Below is a list of optimizations you can make as an engineer to improve the performance of your website.  This list is not exhaustive and needs updating.  Currently, it's simply used as a reminder to myself but in the future I hope to expand on it by including more details and instructions.
+Below is a list of optimizations you can implement to improve the performance of your website.  This list is not exhaustive and needs (continual) updating.
+
+- `<link rel="preload">` -- add the `preload` value to your `link` elements to tell the browser to start fetching this resource earlier in the lifecycle of a page load.  This will ensure that the resource is less likely to block the page's first render. Sources: [Blog post](https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/), [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content), [Examples](https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf)
+
+  - `as` property -- (example: `<link="preload" href="something.js" as="script"`); using `as` allows the browser to prioritize the resource loading more accurately
+
+  - `<link rel="prefetch">` -- differs from `preload` in that it tells the browser to fetch a resource that will _probably_ be needed for next navigation. This means the resource will be fetched with extremely low priority because the main use case of `prefetch` is to speed up the _next_ page's navigation.
+
+  - `<link rel="subresource">` -- intended to work like `prefetch` in Chrome but doesn't support priority loading so all resources downloaded at fairly low priority
+
+- HTTP2 (H2 Server Push) -- the idea that we can avoid requesting a resource and instead push a resource from the server, since the server knows the browser will need them.  When the client finally needs the resource, it's already there waiting. When used with service workers, this will cut out one full round trip to your server! Sources: [Chrome Dev Summit 2016](https://youtu.be/RWLzUnESylc?t=13m6s)
+
+  - **Caveat: not cache aware** -- the server doesn't have an idea about the state of your client, it will push the asset regardless of your browser's cache.
+
+  - **Caveat: lacks resource prioritization** -- the browser knows which resources are critical, and which can be deferred.  H2SP does not have this optimization built in.
+
+  - **Caveats Solved** -- use service workers! With SW, the browser doesn't hit the server, the assets are served from the SW. This avoids opening a connection to your server.  Because you did not open a connection, the server cannot push you resources you don't need.
 
 - Tree shaking
 - Minification
@@ -160,29 +177,38 @@ Below is a list of optimizations you can make as an engineer to improve the perf
 - Asset Caching
 - Bundle JS
 - lazy loading
-- HTTP2 (ht2 push)
 - [Google Lighthouse](https://developers.google.com/web/tools/lighthouse/) (add to [CLI](https://github.com/GoogleChrome/lighthouse) & dev workflow)
 - Script tags
   - _defer_ & _async_
   - add to bottom of body
-- Pre-browsing (`link rel="whatever"`) (read more [here](https://css-tricks.com/prefetching-preloading-prebrowsing/) and [here](https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf))
+
 - Server side rendering (SSR)
 - Accelerated Mobile Pages (AMP)
 - Put critical CSS in _head_ and others in _body_
 
 ## index.js Explained
+You'll notice there's an index.js file in this repo.  It needs updating but the gist of it is that I created it in order to visually see when certain events fire.
 
-- TODO remove comments from index.js and place here
-
-- to see the logs fire under slow internet, make sure to throttle your network in the chrome dev tools network tab.  that way you can see how the jquery script attributes and placement affect user experience.
+- make sure to throttle your network in the chrome dev tools network tab.  that way you can see how the jquery script attributes and placement affect user experience.
 
 - comment / uncomment the jquery scripts to see effects
 
 ## Links
+
+#### Page Speed Tools
+- [Webpage Speed Test](https://www.webpagetest.org/)
+-
+
+#### Webpack
+- [Bundle Analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) -- represent your bundle content as a convenient interactive zoomable treemap
+-
+
+#### Browserify
+- [Disc](https://github.com/hughsk/disc) -- visualize the module tree & track down the bloat
+
+#### Other
 - https://testdrive-archive.azurewebsites.net/HTML5/DOMContentLoaded/Default.html
 - https://www.npmjs.com/package/source-map-explorer
-- https://www.npmjs.com/package/webpack-bundle-analyzer
-- https://www.webpagetest.org/
-- add links from bookmarks
 - https://pinterest.github.io/bonsai/
 - http://instartlogic.github.io/p/mobileperf/#slide1
+- (add links from bookmarks)
