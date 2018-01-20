@@ -18,14 +18,17 @@ Below is a list of definitions I pulled from Chrome, Lighthouse, and other rando
 ### **First Paint (FP):** when _any_ pixel of a page have rendered
 FP marks the point when the browser renders _anything_ that is visually different from what was on the screen prior to navigation (i.e. even one little pixel change).
 
+
 ### **First Contentful Paint (FCP):** when _some_ pixels of a page have rendered
 FCP is similar to FMP (below) but differs in that FCP captures meaningless paints, like headers and nav bars.  From Google: _"FCP is the point when the brwoser renders the first bit of content from the DOM, which may be text, an image, SVG, or even a `<canvas>` element"_ ([source](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics)).  In sum, if you want to know when the first pixel is painted, use this metric. But if you care about when the first meaningful object is painted, use FMP.
 
 
 ### **First Meaningful Paint (FMP):** when the _primary_ content of a page is visible
-[First Meaningful Paint](https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint) is essentially the paint after which the biggest above-the-fold layout change has happened, and web fonts have loaded. In other words, it's the time when a page's [primary content appears on the screen](https://docs.google.com/document/d/1BR94tJdZLsin5poeet0XoTW60M0SjvOJQttKT-JK8HI/edit#).  Chrome uses a "layout-based" approach to calculate this metric (i.e. it aims to answer the question, "is this useful?").  That means, the FMP metric is a function of when the "biggest layout change" (discounting content that is below the fold) + _meaningful_ web fonts have loaded.
+[First Meaningful Paint](https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint) is the time when a page's [primary content appears on the screen](https://docs.google.com/document/d/1BR94tJdZLsin5poeet0XoTW60M0SjvOJQttKT-JK8HI/edit#). It's essentially the paint after which the biggest above-the-fold layout change has happened, and web fonts have loaded.
 
-You may notice that this is a very hard metric to track because one cannot simply use the same content for every website.  Webmasters and frontend engineers have to find their own "meaningful" content to measure on a per-page basis ([add'l reading](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics)).
+Chrome uses a "layout-based" approach to calculate this metric (i.e. it aims to answer the question, "is this useful?").  That means, the FMP metric is a function of when the "biggest layout change" (discounting content that is below the fold) + _meaningful_ web fonts have loaded.
+
+You may notice that this is a very hard metric to track because one cannot simply use the same content for every website to determine what is meaningful (every website has a different definition).  Webmasters and frontend engineers have to find their own "meaningful" content to measure on a per-page basis ([add'l reading](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics)).
 
 See FCP above for comparison metric and see web font discussion below for context about font loading.
 

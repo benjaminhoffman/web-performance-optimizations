@@ -1,4 +1,4 @@
-// fires when page initially begins to load
+  // fires when page initially begins to load
 if (document.readyState === 'loading') console.log('readyState: loading')
 
 

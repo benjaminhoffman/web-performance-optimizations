@@ -14,7 +14,8 @@ I created this repo as a place to make sense of all the metrics, measurements, a
 
 This repo is split up into a number of markdown files:
 - [Font Display Timeline](./Fonts.md)
-- [Navigation Timing API](./Navigation_Timing_API.md)
+- [Navigation Timing API (old)](./Navigation_Timing_API.md)
+- [Performance Timing API (new)](./Navigation_Timing_API.md)
 - [Important Metrics You Should Be Tracking](./Important_Metrics.md)
 - [RAIL](./RAIL.md)
 - [Browser Lifecycle](Browser_Lifecycle.md)
