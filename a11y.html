@@ -1,0 +1,78 @@
+<!--
+
+This is a sample html doc with as much accessibility markup as I could think of
+Examples include:
+    - proper html elements (header, nav, main, etc)
+    - aria-label attribute to properly label a region
+        - aria-label: use the former when it’s not possible to have the label visible on screen
+        - aria-labelledby: use the latter if the text is visually on-screen somewhere 
+    - lang="en" for html element
+    - aria-current for page navigation
+    - roles for certain html elements
+
+This is a working doc.  It needs improvement.
+
+-->
+
+<!doctype html>
+<html lang="en">
+    <head></head>
+    <body>
+
+        <header role="banner">
+            <nav role="navigation" aria-label="Main Navigation">
+                <ul>
+                    <li><a href="/" aria-current="page">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main role="main">
+            <section role="region">
+                <article>
+                    <h1>My Cool Website</h1>
+                    <p>Welcome to my cool website!</p>
+                </article>
+            </section>
+
+            <section role="region">
+                Please complete this form:
+                <form role="form">
+                    <label for="name">
+                        Name:
+                        <input id="name" type="text" name="name" />
+                    </label>
+                    
+                    <fieldset>
+                        <legend>
+                            <h2>Choose your favorite Color</h2>
+                        </legend>
+                        <label for="red">
+                            <input type="checkbox" id="red" name="colors" />
+                        </label>
+                        <label for="orange">
+                            <input type="checkbox" id="orange" name="colors" />
+                        </label>
+                        <label for="yellow">
+                            <input type="checkbox" id="yellow" name="colors" />
+                        </label>
+                    </fieldset>
+
+                    <input type="submit" value="Submit" />
+                </form>
+            </section>
+        </main>
+
+        <aside role="complementary">
+            <img src="/selfie.jpg" alt="selfie of author" />
+        </aside>
+
+        <footer role="contentinfo" aria-label="Footer Navigation">
+            <ul>
+                ... same as header ...
+            </ul>
+        </footer>
+    </body>
+</html>
