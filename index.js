@@ -6,16 +6,21 @@ if (document.readyState === 'loading') console.log('readyState: loading')
 // i.e. when the user can begin clicking and those actions get put on the event queue
 // NOTE: essentially same as DOMContentLoaded
 document.addEventListener('readystatechange', (state) => {
-  if (document.readyState === 'interactive') console.log('readyState:', document.readyState)
+  if (document.readyState === 'interactive') {
+    console.log('readyState:', document.readyState) // logs "interactive"
+  }
 })
 
 
-// fires when the document has been completely downloaded and parsed
-// but before the assets have finished loading
+// fires when the HTML has been completely downloaded and parsed
+// without waiting for other assets to finish loading
 // i.e. before images, scripts, etc have completed
 // UI is responsive at this point
 // AKA: jQuery.ready()
 // NOTE: essentially same as readyState of interactive
+// Optimize: to improve the timing of this metric, make your
+//  js files async and optimize loading of stylesheets
+// https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOMContentLoaded')
 })
@@ -26,11 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
 // i.e. when all resources have loaded
 // same as window.onload
 document.addEventListener('readystatechange', (state) => {
-  if (document.readyState === 'complete') console.log('readyState:', document.readyState)
+  if (document.readyState === 'complete') {
+    console.log('readyState:', document.readyState) // logs "complete"
+  }
 })
 
 
 // fires when all assets/resources have loaded
+// good way to detect a "fully-loaded" page
+// https://developer.mozilla.org/en-US/docs/Web/Events/DOMContentLoaded
 window.addEventListener('load', () => {
   console.log('load')
 })
@@ -55,13 +64,21 @@ window.onload = () => console.log('window.onload')
 */
 
 
-/* BELOW NOT PART OF PAGE LOAD*/
-
-// fires before user leaves the page
+// fires before user leaves the page (ie. immediately before the
+// window, document, and its resources are about to be unloaded.)
 // great for things like 'you have unsaved changes'
-window.onbeforeunload = () => console.log('before unload')
+// https://developer.mozilla.org/en-US/docs/Web/Events/beforeunload
+window.addEventListener("beforeunload", function (event) {
+  console.log('before unload')
+});
 
 
-// fires when user is finally leaving
-// used for things that do not involve delay or user action
-window.onunload = () => console.log('unload')
+// fires when document or resource is being unloaded:
+// - all resources still exist
+// - nothing is visible anymore to the user
+// - UI interactions are ineffective
+// - an error won't stop the unloading workflow
+// https://developer.mozilla.org/en-US/docs/Web/Events/unload
+window.addEventListener('unload', function(event) {
+  console.log('on unload');
+});
