@@ -13,7 +13,7 @@ Below is a list of definitions I pulled from Chrome, Lighthouse, and other rando
 
 **Paint Timing API**: these "paint" metrics listed below mark the points when the browser first renders pixels to the screen. ([cite](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics#first_paint_and_first_contentful_paint))
 
-![performance metrics load time visual](./assets/perf-metrics-load-timeline.png)
+![performance metrics load time visual](./assets/perf_metrics_load_timeline.png)
 
 ### **First Paint (FP):** when _any_ pixel of a page have rendered
 FP marks the point when the browser renders _anything_ that is visually different from what was on the screen prior to navigation (i.e. even one little pixel change).

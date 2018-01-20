@@ -9,7 +9,9 @@ This API is now considered "old".  It still works and there is no deprecation wa
 
 ## API Specifics
 All browsers (IE 9+) provide a performance timing API ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/Navigation_timing_API) or [w3.org](https://www.w3.org/TR/navigation-timing/#sec-navigation-timing-interface)), which can be accessed via `window.peformance.timing`.  According to MDN, the *Navigation Timing API* provides data that can be used to measure the performance of a website. Unlike other JavaScript-based mechanisms that have been used for the same purpose, this API can provide end-to-end latency data that can be more useful and accurate.  Using these timestamps you can easily calculate your website's time-to-interactive (TTI)!
-![visual timeline of Navigation Timing API ](./assets/perfmetrics.svg)
+
+![visual timeline of Navigation Timing API](./assets/perf_metrics_timeline.png)
+
 The [list of events](https://developer.mozilla.org/en-US/docs/Web/API/PerformanceTiming), in order of occurrence, are:
   - **navigationStart** -- right after the prompt for unload terminates on the previous document in the same browsing context.  Note, if no previous document exists, this value is the same as `fetchStart`.
   - **unloadEventStart** -- if no previous document, or if the previous doc / redirects is not of the same origin, the value returned is 0.

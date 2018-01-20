@@ -1,5 +1,7 @@
 
-## Font Display Timeline (TODO put me somewhere!)
+## Font Display Timeline
+## TODO finish me
+
 When using webfonts via `@font-face`, the user agent needs to know what to do while the font is actively loading.  Thus, [most browsers have adopted the following timeline](https://tabatkins.github.io/specs/css-font-display/#render-with-a-fallback-font-face):
 
 1. **Font Block Period** -- if the font face is not loaded, any element attempting to use it must instead render an invisible fallback font face.  If the font load successfully during this period, it is used as expected.
