@@ -58,10 +58,17 @@ You'll notice there's an `index.js` and `index.html` file in this repo.  If you'
 - https://www.npmjs.com/package/source-map-explorer
 - https://pinterest.github.io/bonsai/
 - http://instartlogic.github.io/p/mobileperf/#slide1
-- (add links from bookmarks)
 
 ## To Do
-- read me: https://medium.com/@addyosmani/progressive-web-apps-with-react-js-part-i-introduction-50679aef2b12
-- and me: https://medium.com/@addyosmani/progressive-web-apps-with-react-js-part-2-page-load-performance-33b932d97cf2
-- https://hackernoon.com/optimising-your-application-bundle-size-with-webpack-e85b00bab579
+- (add links from chrome bookmarks)
 - fix table of contents and headings for each section
+- work on [image optimization repo](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images) and potentially integrate with this repo??
+
+
+### need to read:
+- pwa & react: https://medium.com/@addyosmani/progressive-web-apps-with-react-js-part-i-introduction-50679aef2b12
+- pwa & react: https://medium.com/@addyosmani/progressive-web-apps-with-react-js-part-2-page-load-performance-33b932d97cf2
+- webpack optimizaion: https://hackernoon.com/optimising-your-application-bundle-size-with-webpack-e85b00bab579
+- add'l metric definitions: https://developers.google.com/web/tools/chrome-user-experience-report/
+- gatsby explaination of speed: https://www.gatsbyjs.org/blog/2017-09-13-why-is-gatsby-so-fast/
+- RAIL model: https://developers.google.com/web/fundamentals/performance/rail
