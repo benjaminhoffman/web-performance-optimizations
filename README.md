@@ -11,12 +11,13 @@ I created this repo as a place to make sense of all the metrics, measurements, a
 - Important Metrics You Should Be Tracking
   - First Contentful Paint (FCP)
   - First Meaningful Paint (FMP)
-  - Time to Interactive (TTI)
   - First Interactive (FI)
+  - Time to Interactive (TTI)
   - Consistently Interactive (CI)
 - Font Display Timeline
 - Navigation Timing API
 - Recipes
+- RAIL
 - Browser Lifecycle
 - Performance Optimization
 - index.js Explained
@@ -31,7 +32,9 @@ If there are only a few takeaways you get from this document, please make it thi
 
 
 ## History Lesson
-Back in the day (Web 1.0 days) the `window.onload()` event was a great measurement for how long it took a webpage to load.  The reason lies in the fact that webpages were mostly static so the time it took for the page to fully render was very much aligned with the website visitor's perceived loading time.  It also helped that this event had excellent cross-browser support, thereby making it the official proxy for time-to-interactive (TTI) / first interactive (FI).  Said another way, `.onload()` is based on a page's resources downloading and in the old days of simple text and small images, the page's readiness was closely tied to its resources downloading.
+Back in the day (Web 1.0 days) the `window.onload()` event was a great measurement for how long it took a webpage to load. `onload()` fires once all assets (html / images / css) have finished loading, and in the days of small, static websites, the time it took for the page to fully download and render, was very much aligned with the website visitor's perceived loading time.  It also helped that this event had excellent cross-browser support, thereby making it the official proxy for time-to-interactive (TTI) / first interactive (FI).  Said another way, `.onload()` is based on a page's resources downloading and in the old days of simple text and small images, the page's readiness was closely tied to its resources downloading.
+
+Finally, I'll leave you with this great quote from [Google I/O 2017](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics) explaining why we can't use just one metric to determine page load time: "...load is not a single moment in time—it's an experience that no one metric can fully capture. There are multiple moments during the load experience that can affect whether a user perceives it as "fast", and if you just focus on one you might miss bad experiences that happen during the rest of the time."
 
 
 ## Today
@@ -43,18 +46,23 @@ In the world of dynamic content loading, single page apps, plentiful network req
 ## Important Metrics You Should Be Tracking
 Below is a list of definitions I pulled from Chrome, Lighthouse, and other random sources.
 
-### **First Contentful Paint (FCP):** when the _any_ pixel of a page has rendered
-[First Contentful Pain](https://docs.google.com/document/d/1BR94tJdZLsin5poeet0XoTW60M0SjvOJQttKT-JK8HI/edit#heading=h.wrx1f1auez1r) is the time when some contentful thing is painted for the first time. It's similar to FMP (below) but differs in that FCP catchings meaningless paints, like headers and nav bars.  In sum, if you want to know when the first pixel is painted, use this metric. But if you care about when the first meaningful object is painted, use FMP.
+**Paint Timing API**: these "paint" metrics listed below mark the points when the browser first renders pixels to the screen. ([cite](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics#first_paint_and_first_contentful_paint))
+
+// TODO insert pic
+
+### **First Paint (FP):** when _any_ pixel of a page have rendered
+FP marks the point when the browser renders _anything_ that is visually different from what was on the screen prior to navigation (i.e. even one little pixel change).
+
+### **First Contentful Paint (FCP):** when _some_ pixels of a page have rendered
+FCP is similar to FMP (below) but differs in that FCP captures meaningless paints, like headers and nav bars.  From Google: _"FCP is the point when the brwoser renders the first bit of content from the DOM, which may be text, an image, SVG, or even a `<canvas>` element"_ ([source](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics)).  In sum, if you want to know when the first pixel is painted, use this metric. But if you care about when the first meaningful object is painted, use FMP.
 
 
 ### **First Meaningful Paint (FMP):** when the _primary_ content of a page is visible
-[First Meaningful Paint](https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint) is essentially the paint after which the biggest above-the-fold layout change has happened, and web fonts have loaded. In other words, it's the time when a page's [primary content appears on the screen](https://docs.google.com/document/d/1BR94tJdZLsin5poeet0XoTW60M0SjvOJQttKT-JK8HI/edit#).  Chrome uses a "layout-based" approach to calculate this metric.  That means, the FMP metric is a function of when the "biggest layout change" (discounting content that is below the fold) + _meaningful_ web fonts have loaded.
+[First Meaningful Paint](https://developers.google.com/web/tools/lighthouse/audits/first-meaningful-paint) is essentially the paint after which the biggest above-the-fold layout change has happened, and web fonts have loaded. In other words, it's the time when a page's [primary content appears on the screen](https://docs.google.com/document/d/1BR94tJdZLsin5poeet0XoTW60M0SjvOJQttKT-JK8HI/edit#).  Chrome uses a "layout-based" approach to calculate this metric (i.e. it aims to answer the question, "is this useful?").  That means, the FMP metric is a function of when the "biggest layout change" (discounting content that is below the fold) + _meaningful_ web fonts have loaded.
+
+You may notice that this is a very hard metric to track because one cannot simply use the same content for every website.  Webmasters and frontend engineers have to find their own "meaningful" content to measure on a per-page basis ([add'l reading](https://developers.google.com/web/updates/2017/06/user-centric-performance-metrics)).
 
 See FCP above for comparison metric and see web font discussion below for context about font loading.
-
-
-### **Time to Interactive (TTI):** when a webpage can be interacted with
-TTI represents the time it takes for the page to become interactive _from the perspective of the user_ and not necessarily when the page is officially done loading.  That's an important distinction... remember we care about _perceived_ loading time, not actual loading time.
 
 
 ### **First Interactive (FI):** when a webpage is _minimally_ interactive
@@ -63,6 +71,10 @@ Previously known as _Time-to-Interactive_, [First Interactive (FI)](https://deve
 - the page responds, on average, to _most_ user input in a reasonable amount of time
 
 Note: this measurement is listed as beta, it is still under discussion.  [link](https://docs.google.com/document/d/1GGiI9-7KeY3TPqS3YT271upUVimo-XiL5mwWorDUD4c/edit#heading=h.k3n425u3ax8x)
+
+
+### **Time to Interactive (TTI):** when a webpage can be interacted with
+TTI represents the time it takes for the page to become interactive _from the perspective of the user_ and not necessarily when the page is officially done loading.  That's an important distinction... remember we care about _perceived_ loading time, not actual loading time.  TTI identifies the point at which the page's initial JS is loaded and the main thread is idle (free of long tasks). It's the point at which your application is both visually rendered and capable of reliably responding to user input.
 
 
 ### **Consistently Interactive (CI):** when a webpage is completely and delightfully interactive
@@ -149,6 +161,16 @@ TODO: explanation of [`performance.getEntries()`](https://developer.mozilla.org/
 - if your bundle is large, you may see an extended delay in the parsing stage of the script
 - once your code is done parsing, compiling, and executed, its done!
 - your page can continue parsing
+
+## RAIL
+### Response
+### Animation
+### Idle
+### Load
+[source](https://developers.google.com/web/fundamentals/performance/rail)
+Avoid long tasks that block the browser's main thread, preventing other tasks in the queue from executing. The "long tasks API" identifies any task longer than 50ms as potentially problematic.  RAIL guidelines dictate the browser must respond to user input within 100ms.
+
+// TODO insert pic
 
 
 ## Performance Optimization
