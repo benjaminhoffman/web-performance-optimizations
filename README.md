@@ -156,7 +156,7 @@ Below is a list of optimizations you can implement to improve the performance of
 
 - `<link rel="preload">` -- add the `preload` value to your `link` elements to tell the browser to start fetching this resource earlier in the lifecycle of a page load.  This will ensure that the resource is less likely to block the page's first render. Sources: [Blog post](https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/), [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Preloading_content), [Examples](https://medium.com/reloading/preload-prefetch-and-priorities-in-chrome-776165961bbf)
 
-  - `as` property -- (example: `<link="preload" href="something.js" as="script"`); using `as` allows the browser to prioritize the resource loading more accurately
+  - `as` property -- (example: `<link="preload" href="something.js" as="script"`); using `as` allows the browser to prioritize the resource loading more accurately (i.e. when used with fonts, it will [change it to High priority](https://css-tricks.com/the-critical-request/#article-header-id-0))
 
   - `<link rel="prefetch">` -- differs from `preload` in that it tells the browser to fetch a resource that will _probably_ be needed for next navigation. This means the resource will be fetched with extremely low priority because the main use case of `prefetch` is to speed up the _next_ page's navigation.
 
@@ -169,6 +169,8 @@ Below is a list of optimizations you can implement to improve the performance of
   - **Caveat: lacks resource prioritization** -- the browser knows which resources are critical, and which can be deferred.  H2SP does not have this optimization built in.
 
   - **Caveats Solved** -- use service workers! With SW, the browser doesn't hit the server, the assets are served from the SW. This avoids opening a connection to your server.  Because you did not open a connection, the server cannot push you resources you don't need.
+
+- **Progressive Web App (PWA)** -- using Google Chrome Lighthouse, you should try to achieve a score of 100.  [Read more](https://stevenfitzpatrick.io/blog/getting-100-on-the-lighthouse-audit)
 
 - Tree shaking
 - Minification
@@ -212,3 +214,8 @@ You'll notice there's an index.js file in this repo.  It needs updating but the 
 - https://pinterest.github.io/bonsai/
 - http://instartlogic.github.io/p/mobileperf/#slide1
 - (add links from bookmarks)
+
+### To Do
+- read me: https://medium.com/@addyosmani/progressive-web-apps-with-react-js-part-i-introduction-50679aef2b12
+- and me: https://medium.com/@addyosmani/progressive-web-apps-with-react-js-part-2-page-load-performance-33b932d97cf2
+- https://hackernoon.com/optimising-your-application-bundle-size-with-webpack-e85b00bab579
