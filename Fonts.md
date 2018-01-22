@@ -1,5 +1,8 @@
 
 ## Font Display Timeline
+
+todo... READ ME: https://www.zachleat.com/web/comprehensive-webfonts/
+
 ## TODO finish me
 
 When using webfonts via `@font-face`, the user agent needs to know what to do while the font is actively loading.  Thus, [most browsers have adopted the following timeline](https://tabatkins.github.io/specs/css-font-display/#render-with-a-fallback-font-face):
