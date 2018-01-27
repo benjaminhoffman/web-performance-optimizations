@@ -23,28 +23,6 @@ Doing images "right" today is hard.  Don't let anyone tell you otherwise.  As th
   - popular pollyfill library for the `<picture>` element
 
 
-## Resolution Switching (RS) vs. Art Direction (AD)
-RS uses `srcset` on the `<img>` element to switch out smaller resolutions of the same image for smaller devices, and larger resolutions for larger devices. AD uses `<picture>` and `<source>` elements to switch out completely different images for one another, depending on the device, browser, or viewport width.  Example usages of AD include using `webp` files and zooming in (cropping) on images on smaller devices.
-
-### Use Cases
-See `examples.html` in this repo for additional notes.
-
-- **Use a `.webp` image if the browser supports it and `.jpg` or other if not**
-  - art direction
-
-- **On mobile or tablet, render a smaller version of the same image so the device doesn't have to download huge assets**
-  - resolution switching
-
-- **On Retina (or Super Retina, etc) device, render a larger version of the same image so the image is very crisp and clear**
-  - resolution switching
-
-- **Crop an image (i.e. zoom in) when using a smaller device so context of the image isn't lost or users don't have to zoom in**
-  - art direction
-
-- **Render a smaller `.webp` image on small device, and large `.webp` image on a large device, and have `.jpg` (or other) as a backup**
-  - art direction **and** resolution switching
-
-
 ## Optimize Your Website
 If you are a front end developer, here is a checklist of how you can optimize your website
 
@@ -75,10 +53,30 @@ Optimization can be broken into two parts: **process** and **code**.
 - **HTML width/height**: Hold image position so page doesn’t jump
 - **CSS**: should work with CSS (via media queries or image-set property
 
-## To Do
-Need to update this repo to add more examples as well as fix the definitions
 
-### Read Me
+## Resolution Switching (RS) vs. Art Direction (AD)
+RS uses `srcset` on the `<img>` element to switch out smaller resolutions of the same image for smaller devices, and larger resolutions for larger devices. AD uses `<picture>` and `<source>` elements to switch out completely different images for one another, depending on the device, browser, or viewport width.  Example usages of AD include using `webp` files and zooming in (cropping) on images on smaller devices.
+
+### Use Cases
+See `examples.html` in this repo for additional notes.
+
+- **Use a `.webp` image if the browser supports it and `.jpg` or other if not**
+  - art direction
+
+- **On mobile or tablet, render a smaller version of the same image so the device doesn't have to download huge assets**
+  - resolution switching
+
+- **On Retina (or Super Retina, etc) device, render a larger version of the same image so the image is very crisp and clear**
+  - resolution switching
+
+- **Crop an image (i.e. zoom in) when using a smaller device so context of the image isn't lost or users don't have to zoom in**
+  - art direction
+
+- **Render a smaller `.webp` image on small device, and large `.webp` image on a large device, and have `.jpg` (or other) as a backup**
+  - art direction **and** resolution switching
+
+
+## Read Me
 - https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images
 - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source
 - https://dev.opera.com/articles/responsive-images/

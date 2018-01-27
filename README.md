@@ -17,12 +17,12 @@ Instead of trying to memorize everything I've learned, I decided to write it dow
 This repo is split up into a number of markdown files:
 - [Font Display Timeline](./Fonts.md)
 - [Navigation Timing API (old)](./Navigation_Timing_API.md)
-- [Performance Timing API (new)](./Navigation_Timing_API.md)
+- [Performance Timing API (new)](./Performance_Timing_API.md)
 - [Important Metrics You Should Be Tracking](./Important_Metrics.md)
 - [RAIL](./RAIL.md)
 - [Browser Lifecycle](Browser_Lifecycle.md)
 - [Performance Optimization](./Performance_Optimizations.md)
-- [Images](./images) (the breadth of knowledge & research is so wide, _images_ is deserving of its own subfolder)
+- [Images](./image-research) (the breadth of knowledge & research is so wide, _images_ is deserving of its own subfolder)
 
 ## Important Notes
 If there are only a few takeaways you get from this document, please make it this:
