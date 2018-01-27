@@ -1,5 +1,7 @@
 # DOM Lifecycle Events
-I created this repo as a place to make sense of all the metrics, measurements, and industry standards around webpage performance and page speed optimizations.  Nothing here is new or rocket science.  Consider it an encyclopedia of sorts; it's my way keeping track of the latest advancements in this area.  This has not been peer reviewed, read at your own risk.  
+The breadth of website performance optimization in 2018 is huge.  It takes extreme focus and dedication to read, understand, and implement all the latest web performance techniques and technologies.
+
+Instead of trying to memorize everything I've learned, I decided to write it down. And instead of keeping it private, I decided to open source my learnings! I created this repo as a place to make sense of all the metrics, measurements, and industry standards around webpage performance and page speed optimizations.  Nothing here is new or rocket science.  Consider it an encyclopedia of sorts; it's my way keeping track of the latest advancements in this area.  This has not been peer reviewed, read at your own risk.  
 
 **Please help me improve this doc... pull requests & issues are encouraged!**
 
@@ -20,7 +22,7 @@ This repo is split up into a number of markdown files:
 - [RAIL](./RAIL.md)
 - [Browser Lifecycle](Browser_Lifecycle.md)
 - [Performance Optimization](./Performance_Optimizations.md)
-
+- [Images](./images) (the breadth of knowledge & research is so wide, _images_ is deserving of its own subfolder)
 
 ## Important Notes
 If there are only a few takeaways you get from this document, please make it this:

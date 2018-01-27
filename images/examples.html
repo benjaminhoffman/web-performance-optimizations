@@ -1,0 +1,94 @@
+<style>
+  body {
+    padding: 0;
+  }
+
+  #css-override {
+    padding: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+
+</style>
+
+instructions:
+<ol>
+  <li>make your browser width as small as possible on a 1x screen resolution</li>
+  <li>slowly expand the width and notice the network request tab pulls in new image files</li>
+  <li>do the same on a 2x screen resolution</li>
+  <li>note the differences</li>
+</ol>
+
+<!--
+  example of resolution switching / resolution descriptors
+  use `srcset` to indicate to browser it should download a different file for each viewport width (`w`) or resolution (`x`)
+  use `src` as an image fallback (for browsers that donʼt support `srcset`)
+  use `sizes` to tell browser _which_ image to use at which viewport; defaults to "100vw"
+-->
+<img
+  srcset="../assets/1400.png 1400w,
+          ../assets/1200.png 1200w,
+          ../assets/1000.png 1000w,
+          ../assets/800.png 800w,
+          ../assets/500.png 500w"
+  src="../assets/300.png"
+  sizes="
+    (min-width: 1000px) 800px, 
+    (min-width: 680px) 500px,
+    250px"
+  alt="testing"
+/>
+
+<br />
+<br />
+<br />
+
+<!--
+  notice how the html below matches the html above... 
+  except for in one important aspect: the html above does not have css applied to it!
+  this example was built to show how css will override any media queries you put in your `sizes` attribute
+-->
+<img
+  srcset="../assets/1400.png 1400w,
+          ../assets/1200.png 1200w,
+          ../assets/1000.png 1000w,
+          ../assets/800.png 800w,
+          ../assets/500.png 500w"
+  src="../assets/300.png"
+  sizes="
+    (min-width: 1400px) 1400px,
+    (min-width: 1200px) 1200px,
+    (min-width: 1000px) 1000px,
+    (min-width: 800px) 800px,
+    (min-width: 500px) 500px,
+    300px
+  "
+  alt="testing"
+  id="css-override"
+/>
+  
+
+<!-- example of resolution descriptors (ie screen PPI `3x`, `2x`, etc) -->
+<img srcset="../assets/1400.png 3x,
+    ../assets/800.png 2x" src="../assets/300.png" alt="..." />
+
+<br />
+<br />
+
+
+<!--
+  example of how to implement webp
+  https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/automating-image-optimization/#how-do-i-serve-webp
+-->
+<picture>
+  <source srcset="image.webp" type="image/webp">
+  <img src="image.jpg" alt="...">
+</picture>
+
+
+<!-- example of art direction (`<picture>`) with resolution switching  -->
+<picture>
+  <source media="(min-width: 1000px)" srcset="large@1x.png 1x, large@2x.png 2x" />
+  <source media="(min-width: 500px)" srcset="medium@1x.png 1x, medium@2x.png 2x" />
+  <img src="small.jpg" alt="...">
+</picture>
