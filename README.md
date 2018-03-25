@@ -43,9 +43,10 @@ In the world of dynamic content loading, single page apps, plentiful network req
 ## index.js Explained
 You'll notice there's an `index.js` and `index.html` file in this repo.  If you'd like to see some of the browser timing events described in this repo, use those files.  Make sure to throttle your network (in the dev tools network tab) so you can see how the jquery script affects user experience.
 
-## Links
+## Resources
 
 #### Page Speed Tools
+- [Explained: WebPageTest vs Lighthouse vs GTMetrix vs Pingdom vs Insights](https://yoast.com/site-speed-tools-suggestions/)
 - [Webpage Speed Test](https://www.webpagetest.org/)
 
 #### Webpack
