@@ -63,6 +63,7 @@ You'll notice there's an `index.js` and `index.html` file in this repo.  If you'
 - http://instartlogic.github.io/p/mobileperf/#slide1
 
 ## To Do
+- terminology: https://developers.google.com/web/tools/chrome-user-experience-report/
 - (add links from chrome bookmarks)
 - fix table of contents and headings for each section
 - work on [image optimization repo](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images) and potentially integrate with this repo??

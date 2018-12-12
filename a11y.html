@@ -16,7 +16,30 @@ This is a working doc.  It needs improvement.
 
 <!doctype html>
 <html lang="en">
-    <head></head>
+    <head>
+        <!-- 
+            width=device-width
+                Using the meta viewport value `width=device-width` instructs the page to
+                match the screen's width in device-independent pixels. This allows the
+                page to reflow content to match different screen sizes, whether rendered
+                on a small mobile phone or a large desktop monitor.
+
+            initial-scale=1
+                Some browsers keep the page's width constant when rotating to landscape mode,
+                and zoom rather than reflow to fill the screen. Adding the attribute
+                initial-scale=1 instructs browsers to establish a 1:1 relationship between
+                CSS pixels and device-independent pixels regardless of device orientation,
+                and allows the page to take advantage of the full landscape width.
+            
+            Note: To ensure that older browsers can properly parse the attributes,
+            use a comma to separate attributes.
+        -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+    </head>
     <body>
 
         <header role="banner">
