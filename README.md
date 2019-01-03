@@ -67,7 +67,7 @@ You'll notice there's an `index.js` and `index.html` file in this repo.  If you'
 - (add links from chrome bookmarks)
 - fix table of contents and headings for each section
 - work on [image optimization repo](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images) and potentially integrate with this repo??
-
+- add wpostats.com to resources
 
 ### need to read:
 - pwa & react: https://medium.com/@addyosmani/progressive-web-apps-with-react-js-part-i-introduction-50679aef2b12
