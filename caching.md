@@ -82,6 +82,15 @@ The Cache-Control headers are:
 | `private, max-age=600` | Response can be cached by the client’s browser only for up to 10 minutes (60 seconds x 10 minutes).      |
 | `no-store`             | Response is not allowed to be cached and must be fetched in full on every request. |
 
+Further examples of proper Cache-Control policies: 
+
+| Situation            | URL | Cache-Control   | Notes       |
+|-------------------|-----------|-------------|---|
+| Content that changes | `app.4k3n2.js` | `max-age: 31536000` | Treat resource as immutable and generate a unique URL with a very long cache period (1 year) |
+| Public content that rarely changes | `/about-us` | `no-cache` | Only allow cache after validating |
+| Private content | `/messages` | `no-store` | Do not allow caching |
+
+
 Follow the logic here to determine which cache settings to configure on your server:
 <img src="./assets/cache/cache_logic_tree.png" width="50%" height="50%" >
 
@@ -130,10 +139,9 @@ For example, with Wordpress, let's say you have a plugin for redirects on your w
 
 # Sources
 - https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
+- https://www.youtube.com/watch?v=vAgKZoGIvqs&feature=youtu.be&t=12m20s
 - Re-read me (esp section 2 & 3): https://jakearchibald.com/2016/caching-best-practices/
 - https://wpengine.com/support/cache-control-headers-wp-engine/
 - https://wpengine.com/support/tips-improving-page-cacheability/
 - https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9
 
-
-TODO: watch me: https://www.youtube.com/watch?v=vAgKZoGIvqs&feature=youtu.be&t=12m20s
