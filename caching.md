@@ -1,20 +1,32 @@
 # What is caching?
 Caching is the act of storing a _snapshot_ or _copy_ of a page or file for faster access the next time that page or file is requested. The file gets served from the _caching layer_, rather than sending the request all the way back to the server. A page served from cache can be returned in a fraction of the time it would take to serve the same uncached page or file. Caching also helps ease the strain on the server when you are getting large amounts of data.
 
-Here is what the _cached_ workflow looks like:
-
-<img src="./assets/cache/cached_workflow.png" width="80%" height="80%" >
-
 Here is what the _uncached_ workflow looks like:
 
 <img src="./assets/cache/uncached_workflow.png" width="80%" height="80%" >
+
+Here is what the _cached_ workflow looks like (notice the faster response time):
+
+<img src="./assets/cache/cached_workflow.png" width="80%" height="80%" >
 
 # Caching layers
 Caching happens at many layers. 
 
 ## Browser-level caching (HTTP cache)
+This is cache that is stored in your web browser.  In Chrome specifically, there are two types of browser cache: 1) memory cache, and 2) disk cache ([source](https://stackoverflow.com/a/48557278)):
+
+- **memory cache**: this is cache that is served from memory (RAM).  It is much faster than disk cache but it's not persistent because it disappears when you close your browser.
+
+- **disk cache**: this is cache that is served from your disk.  It's persistent and a bit slower than in-memory cache.
+
+Chrome defaults to memory cache if it exists, else it falls back to disk cache.  To test this, as an experiment, load a webpage.  Reload it a few times.  Notice the cache is mostly served from memory.  Closer your browser and reload the same page.  Notice that the first load is from disk and not from memory.
+
+
+## CDN caching
+Most CDNs will also cache your content.  In fact, this is one of the main benefits of a CDN -- it will store copies of your content closer to the web visitor.
 
 ## Server-level caching
+Your server will also cache content and resources for you.
 
 ## Database-level caching
 You can also cache queries to your database.  See _Wordpress_ section below for more details.
@@ -43,16 +55,6 @@ The Cache-Control headers are:
 
     - `public` vs `private`: if the response is marked as "public", then it can be cached, even if it has HTTP auth associated with it. Most of the time, "public" isn't necessary because explicit caching info (like `max-age`) indicates that the response is cacheable anyway. By contrast, "private" responses can be cached by the browser but not any intermediate cache, like CDNs. For example, when a web page has private user info.
 
-**Cache-Control Directives & Explanation**
-
-| Directive            | Explanation   |
-| -------------------- |-------------|
-| `max-age=86400`        | Response can be cached by browser and any intermediary caches (that is, it's "public") for up to 1 day (60 seconds x 60 minutes x 24 hours). |
-| `private, max-age=600` | Response can be cached by the client’s browser only for up to 10 minutes (60 seconds x 10 minutes).      |
-| `no-store`             | Response is not allowed to be cached and must be fetched in full on every request. |
-
-
-
 - **x-cache**: Will tell you whether the page was served from cache or not. A **HIT** indicates the request was served from the caching layer. A **MISS** indicates it did not hit cache.
 
 - **x-pass-why**: This header will tell you the reason why the request did not hit the cache if you see _x-cache: MISS_.
@@ -69,9 +71,21 @@ The Cache-Control headers are:
 
 - **If-None-Match**: 
 
-## Examples
+
+## Examples & explanations
+
+**Cache-Control Directives & Explanation**
+
+| Directive            | Explanation   |
+| -------------------- |-------------|
+| `max-age=86400`        | Response can be cached by browser and any intermediary caches (that is, it's "public") for up to 1 day (60 seconds x 60 minutes x 24 hours). |
+| `private, max-age=600` | Response can be cached by the client’s browser only for up to 10 minutes (60 seconds x 10 minutes).      |
+| `no-store`             | Response is not allowed to be cached and must be fetched in full on every request. |
+
+Follow the logic here to determine which cache settings to configure on your server:
 <img src="./assets/cache/cache_logic_tree.png" width="50%" height="50%" >
 
+Here is an example, and explanation below, of various cache settings:
 <img src="./assets/cache/http-cache-hierarchy.png" width="50%" height="50%" >
 
 - the HTML document cannot be cached and must be downloaded fresh everytime
@@ -86,10 +100,6 @@ The Cache-Control headers are:
 
 - **the combination of ETag, Cache-Control, and unique URLs (ie hashed URLs) allows you to deliver the best of all worlds: long-lived expiration times, control over where the response can be cached, and on-demand updates.**
 
-
-# Performance recommendations
-**Reduce external resources**: If you're calling an image, stylesheet, font, or other resource from a site that's not within your control, that resource if subject to the caching settings (if any) from the server that the external resource resides on. Thus, whenever possible, call these resources from your own site, so they can be served using your own caching layer.
-
 # Best practices
 - use consistent URLs (note URLs are case sensitive)
 - ensure the server provides a validation token (ETag)
@@ -97,8 +107,10 @@ The Cache-Control headers are:
 - determine an optimal cache lifetime for each resource
 - determine the best cache hierarchy for your site
 - minimize churn through file chunking
+- reduce external resources: If you're calling an image, stylesheet, font, or other resource from a site that's not within your control, that resource if subject to the caching settings (if any) from the server that the external resource resides on. Thus, whenever possible, call these resources from your own site, so they can be served using your own caching layer.
 
 # Wordpress
+Many websites are run on Wordpress.  Below is a list of Wordpress-specific recommendations and plugins.
 
 ## Object caching
 The object caching layer caches the results of repeated queries to the database. The server first looks for the query in the Object Cache layer and if it doesn't exist yet, the query is run on the db, and the result is stored in the Object Cache layer for next time.
@@ -110,13 +122,11 @@ For example, with Wordpress, let's say you have a plugin for redirects on your w
 - need to read: https://wpengine.com/support/wp-engines-object-caching/
 
 ## Plugins
-- debug & monitor queries, API calls, etc: https://wordpress.org/plugins/query-monitor/
-- set cache length & other settings: https://wordpress.org/plugins/wpe-advanced-cache-options/
+- debug & monitor queries, API calls, etc: https://wordpwress.org/plugins/query-monitor/
+- set cache length & other settings for WPE-hosted sites: https://wordpress.org/plugins/wpe-advanced-cache-options/
 - file minification & caching https://wordpress.org/plugins/autoptimize/
 - optimize & compress images (creates webp files) https://wordpress.org/plugins/ewww-image-optimizer-cloud/
 
-
-TODO: watch me: https://www.youtube.com/watch?v=vAgKZoGIvqs&feature=youtu.be&t=12m20s
 
 # Sources
 - https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
@@ -124,3 +134,6 @@ TODO: watch me: https://www.youtube.com/watch?v=vAgKZoGIvqs&feature=youtu.be&t=1
 - https://wpengine.com/support/cache-control-headers-wp-engine/
 - https://wpengine.com/support/tips-improving-page-cacheability/
 - https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9
+
+
+TODO: watch me: https://www.youtube.com/watch?v=vAgKZoGIvqs&feature=youtu.be&t=12m20s
