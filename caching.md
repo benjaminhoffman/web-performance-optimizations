@@ -2,10 +2,12 @@
 Caching is the act of storing a _snapshot_ or _copy_ of a page or file for faster access the next time that page or file is requested. The file gets served from the _caching layer_, rather than sending the request all the way back to the server. A page served from cache can be returned in a fraction of the time it would take to serve the same uncached page or file. Caching also helps ease the strain on the server when you are getting large amounts of data.
 
 Here is what the _cached_ workflow looks like:
-!['cached workflow'](./assets/cache/cached_workflow.png)
+
+<img src="./assets/cache/cached_workflow.png" width="80%" height="80%" >
 
 Here is what the _uncached_ workflow looks like:
-!['uncached workflow'](./assets/cache/uncached_workflow.png)
+
+<img src="./assets/cache/uncached_workflow.png" width="80%" height="80%" >
 
 # Caching layers
 Caching happens at many layers. 
@@ -41,9 +43,8 @@ The Cache-Control headers are:
 
     - `public` vs `private`: if the response is marked as "public", then it can be cached, even if it has HTTP auth associated with it. Most of the time, "public" isn't necessary because explicit caching info (like `max-age`) indicates that the response is cacheable anyway. By contrast, "private" responses can be cached by the browser but not any intermediate cache, like CDNs. For example, when a web page has private user info.
 
-!['Cache logic tree'](./assets/cache/cache_logic_tree.png)
+**Cache-Control Directives & Explanation**
 
-**Cache-Control directives & Explanation**
 | Directive            | Explanation   |
 | -------------------- |-------------|
 | `max-age=86400`        | Response can be cached by browser and any intermediary caches (that is, it's "public") for up to 1 day (60 seconds x 60 minutes x 24 hours). |
@@ -69,8 +70,10 @@ The Cache-Control headers are:
 - **If-None-Match**: 
 
 ## Examples
+<img src="./assets/cache/cache_logic_tree.png" width="50%" height="50%" >
 
-!['Cache logic tree'](./assets/cache/http-cache-hierarchy.png)
+<img src="./assets/cache/http-cache-hierarchy.png" width="50%" height="50%" >
+
 - the HTML document cannot be cached and must be downloaded fresh everytime
 - the CSS resource can be cached for one year by the browser and all intermediary resources.  Note the hashed URL so if the HTML has a different hashed URL, the browser will download a new CSS resource
 - the JS is the same as the CSS except it's private so cannot be cached by intermediate caches (ie CDNs)... likely because it contains private or sensitive data.  And note that we can safely use a far future date of one year because of the hashed URL.
