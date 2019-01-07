@@ -13,13 +13,13 @@ Here is what the _cached_ workflow looks like (notice the faster response time):
 Caching happens at many layers. 
 
 ## Browser-level caching (HTTP cache)
-This is cache that is stored in your web browser.  In Chrome specifically, there are two types of browser cache: 1) memory cache, and 2) disk cache ([source](https://stackoverflow.com/a/48557278)):
+This is cache that is stored in your web browser.  To enable proper browser caching, you need to edit your HTTP headers to set expiry times for certain typeof files.  In Chrome specifically, there are two types of browser cache: 1) memory cache, and 2) disk cache ([source](https://stackoverflow.com/a/48557278)):
 
 - **memory cache**: this is cache that is served from memory (RAM).  It is much faster than disk cache but it's not persistent because it disappears when you close your browser.
 
 - **disk cache**: this is cache that is served from your disk.  It's persistent and a bit slower than in-memory cache.
 
-Chrome defaults to memory cache if it exists, else it falls back to disk cache.  To test this, as an experiment, load a webpage.  Reload it a few times.  Notice the cache is mostly served from memory.  Closer your browser and reload the same page.  Notice that the first load is from disk and not from memory.
+Chrome defaults to memory cache if it exists, else it falls back to disk cache.  To test this, as an experiment, load a webpage.  Reload it a few times.  Notice the cache is mostly served from memory.  Close your browser and reload the same page.  Notice that the first load is from disk and not from memory.
 
 
 ## CDN caching
@@ -39,7 +39,7 @@ When a page or file is requested, the server and browser listen to the "Cache-Co
 The Cache-Control headers are:
 - **age**: 
 
-- **cache-control**: tells the cache system (ie, browser or server) how long to cache the page in seconds. For example, when _max-age_ is set to 600, this means the page can be cached for 10 minutes.  Syntax looks like `Cache-Control: max-age=31536000` (which is `Access plus 1 year`).  Possible values include:
+- **cache-control**: tells the cache system (ie, browser or server) how long to cache the page in seconds. For example, when _max-age_ is set to 600, this means the page can be cached for 10 minutes.  Syntax looks like `Cache-Control: max-age=31536000` (which is "Access plus 1 year").  Possible values include:
     - `no-store`: Tells the browser/client (or any intermediate caches) to not cache it at all. Used for returning personal or banking data. Eery request for this resource will require a full response.
 
     - `no-cache`: Used for mutable content that _always_ needs server revalidation (any locally-cached version is not trusted without the server's confirmation). In other words, it indicates that the returned response can't be used to satisfy a subsequent request to the same URL without first checking with the server. Note that `no-cache` does _not_ mean _don't cache_, it simply means the client must check with the server before using the content (ie, revalidate it).
@@ -47,9 +47,9 @@ The Cache-Control headers are:
 
     - `max-age`: cached content _younger than_ the `max-age` seconds can be used without consulting the server. Used for when the content at this URL _never_ changes (you never change the content at a particular URL, you simply change the URL itself).  `max-age` on mutable content is almost always the wrong choice.  For example, this is when you see URLs with hashes in them, like `<script src="/script-f93bca2c.js"></script>` or `<link rel="stylesheet" href="/styles-a837cb1e.css">`
 
-    - `s-maxage`: 
+    - `s-maxage`: similar to `max-age` but used for shared caches; takes precedence over `max-age`
 
-    - `immutable`: 
+    - `immutable`: indicates that the response body will not change over time. Therefore the client should not send a conditional revalidation for it (e.g. `If-None-Match` or `If-Modified-Since`), even when the user refreshes the page
 
     - `must-revalidate`: does _not_ mean _must revalidate_ but instead means the local resources can be used if it's younger than the provided `max-age`, otherwise it must revalidate.
 
@@ -59,17 +59,13 @@ The Cache-Control headers are:
 
 - **x-pass-why**: This header will tell you the reason why the request did not hit the cache if you see _x-cache: MISS_.
 
-- **x-cache-group**:
-
-- **x-cacheable**:
-
 - **ETag**: a validation token used to check if an expired resource has been modified. This enables efficient resource update checks because no data is transferred if the resource has not changed.  For example, when the browser sends the initial request, it includes the ETag value in its `If-None-Match` HTTP request header. If the fingerprint (the Etag value) still matches what is on the server, the server returns a `304 Not Modified` response, which tells the browser that the response it has in cache hasn't changed and can be renewed for another `max-age` time period.
 
-- **Last-Modified**: 
+- **Last-Modified**: a response header containing the date/time the origin server believes the resource was last modified. It is used as a validator to deteremine if a resource received or stored is the same. Less accurate than `ETag`, it is a fallback mechanism. Conditional requests (`If-Modified-Since` or `If-Unmodified-Since`) headers make use of this field. ([source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Last-Modified))
 
-- **If-Modified-Since**:
+- **If-Modified-Since**: a request header that's conditional; the server will send back the requested resource only if it has been last modified after the given date ([source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since))
 
-- **If-None-Match**: 
+- **If-None-Match**: a request header that makes the request conditional. For `GET`/`HEAD` methods, the server will send back the requested resource (with `200` code) only if it doesn't have an `ETag` matching the given one. ([source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match))
 
 
 ## Examples & explanations
@@ -78,24 +74,19 @@ The Cache-Control headers are:
 
 | Directive            | Explanation   |
 | -------------------- |-------------|
-| `max-age=86400`        | Response can be cached by browser and any intermediary caches (that is, it's "public") for up to 1 day (60 seconds x 60 minutes x 24 hours). |
-| `private, max-age=600` | Response can be cached by the client’s browser only for up to 10 minutes (60 seconds x 10 minutes).      |
-| `no-store`             | Response is not allowed to be cached and must be fetched in full on every request. |
-
-Further examples of proper Cache-Control policies: 
-
-| Situation            | URL | Cache-Control   | Notes       |
-|-------------------|-----------|-------------|---|
-| Content that changes | `app.4k3n2.js` | `max-age: 31536000` | Treat resource as immutable and generate a unique URL with a very long cache period (1 year) |
-| Public content that rarely changes | `/about-us` | `no-cache` | Only allow cache after validating |
-| Private content | `/messages` | `no-store` | Do not allow caching |
-
+| `max-age=86400` | Response can be cached by browser and any intermediary caches (that is, it's "public") for up to 1 day (60 seconds x 60 minutes x 24 hours). |
+| `private, max-age=600, no-cache` | Response can be cached by the client’s browser for only 10 minutes (60 seconds x 10 minutes) and must revalidate each time . **Best practice for HTML files**|
+| `no-cache, no-store, must-revalidate` | Prevent caching completely. |
+| `app.4k3n2.js` w/ `public, max-age: 31536000, immutable` | Content never changes so we treat resource as immutable and generate a unique URL with a very long cache period (1 year). **Best practice for static files/assets (images, etc).**|
+| `/about-us` w/ `no-cache` | Here is public content that rarely changes so only allow caching after validating. |
+| `/messages` w/ `no-store` | Private/personal content so never allow caching. |
 
 Follow the logic here to determine which cache settings to configure on your server:
-<img src="./assets/cache/cache_logic_tree.png" width="50%" height="50%" >
+<img src="./assets/cache/cache_logic_tree.png" width="50%" height="50%">
+
 
 Here is an example, and explanation below, of various cache settings:
-<img src="./assets/cache/http-cache-hierarchy.png" width="50%" height="50%" >
+<img src="./assets/cache/http-cache-hierarchy.png" width="50%" height="50%">
 
 - the HTML document cannot be cached and must be downloaded fresh everytime
 - the CSS resource can be cached for one year by the browser and all intermediary resources.  Note the hashed URL so if the HTML has a different hashed URL, the browser will download a new CSS resource
@@ -107,16 +98,16 @@ Here is an example, and explanation below, of various cache settings:
 
 - how do we take advantage of efficient revalidation (ie ETags)? The browser does all the work for us. It will automatically detect if a validation token has been previously specified, it appends the validation token to an outgoing request, and it updates the cache timestamps as necessary (based on the received response from the server).  All you have to do as an engineer is ensure your server is providing the necessary ETag tokens.
 
-- **the combination of ETag, Cache-Control, and unique URLs (ie hashed URLs) allows you to deliver the best of all worlds: long-lived expiration times, control over where the response can be cached, and on-demand updates.**
+- the combination of ETag, Cache-Control, and unique URLs (ie hashed URLs) allows you to deliver the best of all worlds: long-lived expiration times, control over where the response can be cached, and on-demand updates.
+
+- reduce external resources: If you're calling an image, stylesheet, font, or other resource from a site that's not within your control, that resource if subject to the caching settings (if any) from the server that the external resource resides on. Thus, whenever possible, call these resources from your own site, so they can be served using your own caching layer.
 
 # Best practices
+- determine an optimal cache lifetime for each resource
 - use consistent URLs (note URLs are case sensitive)
 - ensure the server provides a validation token (ETag)
 - identify which resources can be cached by intermediaries (private vs public)
-- determine an optimal cache lifetime for each resource
-- determine the best cache hierarchy for your site
 - minimize churn through file chunking
-- reduce external resources: If you're calling an image, stylesheet, font, or other resource from a site that's not within your control, that resource if subject to the caching settings (if any) from the server that the external resource resides on. Thus, whenever possible, call these resources from your own site, so they can be served using your own caching layer.
 
 # Wordpress
 Many websites are run on Wordpress.  Below is a list of Wordpress-specific recommendations and plugins.
@@ -138,6 +129,8 @@ For example, with Wordpress, let's say you have a plugin for redirects on your w
 
 
 # Sources
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
+- https://gtmetrix.com/leverage-browser-caching.html
 - https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching
 - https://www.youtube.com/watch?v=vAgKZoGIvqs&feature=youtu.be&t=12m20s
 - Re-read me (esp section 2 & 3): https://jakearchibald.com/2016/caching-best-practices/
