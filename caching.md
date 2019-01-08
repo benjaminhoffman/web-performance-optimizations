@@ -31,12 +31,12 @@ Your server will also cache content and resources for you.
 ## Database-level caching
 You can also cache queries to your database.  See _Wordpress_ section below for more details.
 
-# Cache-control headers
+# HTTP response headers
 **What are headers?**  Headers are contextual information your web browser sends (with the page/file request) and receives (with the page/file response) while it interacts with a server.
 
 When a page or file is requested, the server and browser listen to the "Cache-Control" headers for instructions on **who** can access the cached copy and for **how long** the copy can be accessed.  
 
-The Cache-Control headers are:
+The Cache-Control **response** headers are:
 - **age**: 
 
 - **cache-control**: tells the cache system (ie, browser or server) how long to cache the page in seconds. For example, when _max-age_ is set to 600, this means the page can be cached for 10 minutes.  Syntax looks like `Cache-Control: max-age=31536000` (which is "Access plus 1 year").  Possible values include:
@@ -63,6 +63,11 @@ The Cache-Control headers are:
 
 - **Last-Modified**: a response header containing the date/time the origin server believes the resource was last modified. It is used as a validator to deteremine if a resource received or stored is the same. Less accurate than `ETag`, it is a fallback mechanism. Conditional requests (`If-Modified-Since` or `If-Unmodified-Since`) headers make use of this field. ([source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Last-Modified))
 
+
+# HTTP request headers
+**What's the purpose of sending `Cache-Control` in the HTTP request header?**
+reread and explain: https://stackoverflow.com/questions/14541077/why-is-cache-control-attribute-sent-in-request-header-client-to-server
+
 - **If-Modified-Since**: a request header that's conditional; the server will send back the requested resource only if it has been last modified after the given date ([source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since))
 
 - **If-None-Match**: a request header that makes the request conditional. For `GET`/`HEAD` methods, the server will send back the requested resource (with `200` code) only if it doesn't have an `ETag` matching the given one. ([source](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match))
@@ -77,9 +82,9 @@ The Cache-Control headers are:
 | `max-age=86400` | Response can be cached by browser and any intermediary caches (that is, it's "public") for up to 1 day (60 seconds x 60 minutes x 24 hours). |
 | `private, max-age=600, no-cache` | Response can be cached by the client’s browser for only 10 minutes (60 seconds x 10 minutes) and must revalidate each time . **Best practice for HTML files**|
 | `no-cache, no-store, must-revalidate` | Prevent caching completely. |
-| `app.4k3n2.js` w/ `public, max-age: 31536000, immutable` | Content never changes so we treat resource as immutable and generate a unique URL with a very long cache period (1 year). **Best practice for static files/assets (images, etc).**|
-| `/about-us` w/ `no-cache` | Here is public content that rarely changes so only allow caching after validating. |
-| `/messages` w/ `no-store` | Private/personal content so never allow caching. |
+| `app.4k3n2.js` with `public, max-age: 31536000, immutable` | Content never changes so we treat resource as immutable and generate a unique URL with a very long cache period (1 year). **Best practice for static files/assets (images, etc).**|
+| `/about-us` with `no-cache` | Here is public content that rarely changes so only allow caching after validating. |
+| `/messages` with `no-store` | Private/personal content so never allow caching. |
 
 Follow the logic here to determine which cache settings to configure on your server:
 <img src="./assets/cache/cache_logic_tree.png" width="50%" height="50%">
