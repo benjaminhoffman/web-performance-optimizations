@@ -77,3 +77,4 @@ You'll notice there's an `index.js` and `index.html` file in this repo.  If you'
 - gatsby explaination of speed: https://www.gatsbyjs.org/blog/2017-09-13-why-is-gatsby-so-fast/
 - RAIL model: https://developers.google.com/web/fundamentals/performance/rail
 - cloudflare, speed up a website: https://www.cloudflare.com/learning/performance/speed-up-a-website/
+- Google's web vitals: https://web.dev/vitals/
